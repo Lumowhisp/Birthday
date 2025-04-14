@@ -90,7 +90,7 @@
         }
 
         /* Navigation button styling */
-        #nextBtn, #backBtn, #nextToFeedbackBtn {
+        .nav-btn {
             background: #4CAF50;
             padding: 12px 40px;
             font-size: 1.2em;
@@ -102,7 +102,7 @@
         }
 
         /* Hover effect for navigation buttons */
-        #nextBtn:hover, #backBtn:hover, #nextToFeedbackBtn:hover {
+        .nav-btn:hover {
             background: #45a049;
             transform: translateY(-2px);
         }
@@ -228,7 +228,7 @@
             <p>To the most amazing mom in the world,<br>
             Thank you for being my guiding star. Wishing you a day filled with love and joy!</p>
             <p>With all my love,<br>Aditya</p>
-            <button id="nextBtn">Next ➡️</button>
+            <button class="nav-btn" id="nextBtn1">Next ➡️</button>
         </div>
     </div>
 
@@ -242,29 +242,31 @@
             If I'll have just half the qualities of your's it would be grateful !!!<br>
             Happiest birthday mummy 🎉🫶<br>
             With love,<br>Sakshi</p>
-            <button id="nextBtn">Next ➡️</button>
+            <button class="nav-btn" id="nextBtn2">Next ➡️</button>
+            <button class="nav-btn" id="backBtn1">Back ⬅️</button>
         </div>
     </div>
 
     <!-- Daddy's message section with photo -->
+
     <div id="daddySection" class="container">
         <div class="birthday-card">
             <h2>🎂 A Special Message from Your Husband! 🎉</h2>
             <!-- Photo of Daddy and Mom (replace with actual URL) -->
             <img src="daddy1.png" alt="Daddy and Mom" class="daddy-photo">
-            <p>Thank you for always being by my side ...and always giving a shoulder to lean on no matter what the situation is ...<br>
-            If I'll have just half the qualities of your's it would be grateful !!!<br>
-            Happiest birthday mummy 🎉🫶<br>
-            With love,<br>[Daddy's Name]</p> <!-- Replace [Daddy's Name] with actual name -->
-            <button id="backBtn">Back ⬅️</button>
-            <button id="nextToFeedbackBtn">Next to Feedback ➡️</button>
+            <p>Happy Birthday to the most incredible woman I know!<br>Thank you for filling 
+                our lives with love,laughter and endless support.Every moment with youis a gift and I,m so gratefulto be your partner.Here,s to celebrating you today
+                and always-love you more than words can express!<br>
+                With love,<br>❤️💖💘💝💓</p> <!-- Replace [Daddy's Name] with actual name -->
+            <button class="nav-btn" id="backBtn2">Back ⬅️</button>
+            <button class="nav-btn" id="nextToFeedbackBtn">Next to Feedback ➡️</button>
         </div>
     </div>
 
     <!-- Feedback section -->
     <div id="feedbackSection" class="container">
         <form id="feedbackForm">
-            <h2>How do you feel about this surprise? 💌</h2>
+            <h2>Aashirwaad 💌</h2>
             <textarea id="feedbackTextarea" placeholder="Write your message here..."></textarea><br>
             <button type="submit">Send Love</button>
         </form>
@@ -326,28 +328,26 @@
             createConfetti();
         }
 
-        // Navigate to Sakshi's message on next button click
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            let currentSection = document.querySelector('.container.visible');
-            if (currentSection && currentSection.id === 'adityaSection') {
-                document.getElementById('adityaSection').classList.remove('visible');
-                document.getElementById('sakshiSection').classList.add('visible');
-            } else if (currentSection && currentSection.id === 'sakshiSection') {
-                document.getElementById('sakshiSection').classList.remove('visible');
-                document.getElementById('daddySection').classList.add('visible');
-            }
+        // Navigate to next section on next button click
+        document.getElementById('nextBtn1').addEventListener('click', () => {
+            document.getElementById('adityaSection').classList.remove('visible');
+            document.getElementById('sakshiSection').classList.add('visible');
         });
 
-        // Navigate back to previous message
-        document.getElementById('backBtn').addEventListener('click', () => {
-            let currentSection = document.querySelector('.container.visible');
-            if (currentSection && currentSection.id === 'sakshiSection') {
-                document.getElementById('sakshiSection').classList.remove('visible');
-                document.getElementById('adityaSection').classList.add('visible');
-            } else if (currentSection && currentSection.id === 'daddySection') {
-                document.getElementById('daddySection').classList.remove('visible');
-                document.getElementById('sakshiSection').classList.add('visible');
-            }
+        document.getElementById('nextBtn2').addEventListener('click', () => {
+            document.getElementById('sakshiSection').classList.remove('visible');
+            document.getElementById('daddySection').classList.add('visible');
+        });
+
+        // Navigate back to previous section
+        document.getElementById('backBtn1').addEventListener('click', () => {
+            document.getElementById('sakshiSection').classList.remove('visible');
+            document.getElementById('adityaSection').classList.add('visible');
+        });
+
+        document.getElementById('backBtn2').addEventListener('click', () => {
+            document.getElementById('daddySection').classList.remove('visible');
+            document.getElementById('sakshiSection').classList.add('visible');
         });
 
         // Navigate to feedback section
