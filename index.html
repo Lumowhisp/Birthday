@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Mom! 🎉</title>
+    <!-- Load face-api.js library for face detection and expression recognition -->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <style>
+        /* Reset default styles and set global font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        /* Body styling with gradient background */
+        body {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Container styling with fade-in animation */
+        .container {
+            display: none;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Fade-in animation for containers */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Fade-out animation for transitions */
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Video container styling */
+        #videoContainer {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        /* Video styling */
+        #video {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Overlay for camera instructions */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+        }
+
+        /* Birthday card styling with slide-up animation */
+        .birthday-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 20px auto;
+            color: #333;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        /* Slide-up animation for cards */
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Navigation button styling */
+        #nextBtn, #backBtn, #nextToFeedbackBtn {
+            background: #4CAF50;
+            padding: 12px 40px;
+            font-size: 1.2em;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        /* Hover effect for navigation buttons */
+        #nextBtn:hover, #backBtn:hover, #nextToFeedbackBtn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        /* Confetti animation styling */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff0;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: fallAndFade 3s linear forwards;
+        }
+
+        /* Fall and fade animation for confetti */
+        @keyframes fallAndFade {
+            0% { transform: translateY(-20vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Feedback form styling */
+        #feedbackForm {
+            margin-top: 30px;
+        }
+
+        /* Textarea styling with focus effect */
+        textarea {
+            width: 100%;
+            max-width: 400px;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #ff6b6b;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        /* Submit button styling */
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        /* Hover effect for submit button */
+        button:hover {
+            transform: scale(1.05);
+            background: #e63946;
+        }
+
+        /* Heading styling */
+        h1 {
+            margin: 20px 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Visible class for showing sections */
+        .visible {
+            display: block !important;
+        }
+
+        /* Photo styling for Sakshi's section */
+        .sakshi-photo {
+            max-width: 300px;
+            border-radius: 15px;
+            margin: 20px auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            animation: zoomIn 0.5s ease-out;
+        }
+
+        /* Photo styling for Aditya's section */
+        .aditya-photo {
+            max-width: 300px;
+            border-radius: 15px;
+            margin: 20px auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            animation: zoomIn 0.5s ease-out;
+        }
+
+        /* Photo styling for Daddy's section */
+        .daddy-photo {
+            max-width: 300px;
+            border-radius: 15px;
+            margin: 20px auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            animation: zoomIn 0.5s ease-out;
+        }
+
+        /* Zoom-in animation for photos */
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing section with video and greeting -->
+    <div id="landing" class="container visible">
+        <div id="videoContainer">
+            <video id="video" autoplay></video>
+            <div class="overlay">Please allow camera access and look directly at the camera</div>
+        </div>
+        <h1 id="greeting"></h1>
+    </div>
+
+    <!-- Aditya's message section -->
+    <div id="adityaSection" class="container">
+        <div class="birthday-card">
+            <img src="ADI.png" alt="Aditya and Mom" class="aditya-photo">
+            <h2>🎂 Happy Birthday Mom! 🎉</h2>
+            <p>To the most amazing mom in the world,<br>
+            Thank you for being my guiding star. Wishing you a day filled with love and joy!</p>
+            <p>With all my love,<br>Aditya</p>
+            <button id="nextBtn">Next ➡️</button>
+        </div>
+    </div>
+
+    <!-- Sakshi's message section with photo -->
+    <div id="sakshiSection" class="container">
+        <div class="birthday-card">
+            <h2>🎂 A Special Message from Sakshi! 🎉</h2>
+            <!-- Photo of Sakshi and Mom -->
+            <img src="sakshi1.png" alt="Sakshi and Mom" class="sakshi-photo">
+            <p>Thank you for always being by my side ...and always giving a shoulder to lean on no matter what the situation is ...<br>
+            If I'll have just half the qualities of your's it would be grateful !!!<br>
+            Happiest birthday mummy 🎉🫶<br>
+            With love,<br>Sakshi</p>
+            <button id="nextBtn">Next ➡️</button>
+        </div>
+    </div>
+
+    <!-- Daddy's message section with photo -->
+    <div id="daddySection" class="container">
+        <div class="birthday-card">
+            <h2>🎂 A Special Message from Your Husband! 🎉</h2>
+            <!-- Photo of Daddy and Mom (replace with actual URL) -->
+            <img src="daddy1.png" alt="Daddy and Mom" class="daddy-photo">
+            <p>Thank you for always being by my side ...and always giving a shoulder to lean on no matter what the situation is ...<br>
+            If I'll have just half the qualities of your's it would be grateful !!!<br>
+            Happiest birthday mummy 🎉🫶<br>
+            With love,<br>[Daddy's Name]</p> <!-- Replace [Daddy's Name] with actual name -->
+            <button id="backBtn">Back ⬅️</button>
+            <button id="nextToFeedbackBtn">Next to Feedback ➡️</button>
+        </div>
+    </div>
+
+    <!-- Feedback section -->
+    <div id="feedbackSection" class="container">
+        <form id="feedbackForm">
+            <h2>How do you feel about this surprise? 💌</h2>
+            <textarea id="feedbackTextarea" placeholder="Write your message here..."></textarea><br>
+            <button type="submit">Send Love</button>
+        </form>
+    </div>
+
+    <script>
+        // Load face-api models asynchronously
+        async function loadModels() {
+            try {
+                await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+                await faceapi.nets.faceExpressionNet.loadFromUri('/models');
+                startVideo();
+            } catch (err) {
+                console.error('Error loading models:', err);
+                alert('Failed to load face detection models. Please check your internet connection.');
+            }
+        }
+
+        // Start video stream from camera
+        function startVideo() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    document.getElementById('video').srcObject = stream;
+                    detectFace();
+                })
+                .catch(err => {
+                    console.error('Camera access error:', err);
+                    alert('Camera access denied. Please allow camera permissions.');
+                });
+        }
+
+        // Detect face and expressions every 500ms
+        async function detectFace() {
+            const video = document.getElementById('video');
+            let smileDetected = false;
+
+            setInterval(async () => {
+                const detections = await faceapi.detectAllFaces(video, 
+                    new faceapi.SsdMobilenetv1Options()).withFaceExpressions();
+                
+                if (detections.length > 0) {
+                    const expressions = detections[0].expressions;
+                    document.getElementById('greeting').textContent = expressions.happy > 0.7 
+                        ? "🎉 Happy Birthday Mom! 🎂" 
+                        : "Hello Mom! Please smile 😊";
+
+                    if (expressions.happy > 0.8 && !smileDetected) {
+                        smileDetected = true;
+                        showAdityaMessage();
+                    }
+                }
+            }, 500);
+        }
+
+        // Show Aditya's message and trigger confetti
+        function showAdityaMessage() {
+            document.getElementById('landing').classList.remove('visible');
+            document.getElementById('adityaSection').classList.add('visible');
+            createConfetti();
+        }
+
+        // Navigate to Sakshi's message on next button click
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            let currentSection = document.querySelector('.container.visible');
+            if (currentSection && currentSection.id === 'adityaSection') {
+                document.getElementById('adityaSection').classList.remove('visible');
+                document.getElementById('sakshiSection').classList.add('visible');
+            } else if (currentSection && currentSection.id === 'sakshiSection') {
+                document.getElementById('sakshiSection').classList.remove('visible');
+                document.getElementById('daddySection').classList.add('visible');
+            }
+        });
+
+        // Navigate back to previous message
+        document.getElementById('backBtn').addEventListener('click', () => {
+            let currentSection = document.querySelector('.container.visible');
+            if (currentSection && currentSection.id === 'sakshiSection') {
+                document.getElementById('sakshiSection').classList.remove('visible');
+                document.getElementById('adityaSection').classList.add('visible');
+            } else if (currentSection && currentSection.id === 'daddySection') {
+                document.getElementById('daddySection').classList.remove('visible');
+                document.getElementById('sakshiSection').classList.add('visible');
+            }
+        });
+
+        // Navigate to feedback section
+        document.getElementById('nextToFeedbackBtn').addEventListener('click', () => {
+            document.getElementById('daddySection').classList.remove('visible');
+            document.getElementById('feedbackSection').classList.add('visible');
+        });
+
+        // Create confetti animation
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                document.body.appendChild(confetti);
+                confetti.addEventListener('animationend', () => confetti.remove());
+            }
+        }
+
+        // Handle feedback form submission to send message via WhatsApp
+        document.getElementById('feedbackForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const textarea = document.getElementById('feedbackTextarea');
+            const message = textarea.value.trim();
+            if (message === '') {
+                alert('Please write a message first!');
+                return;
+            }
+            const encodedMessage = encodeURIComponent(message);
+            const phoneNumber = '+917459971978'; // Replace with your WhatsApp number
+            const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
+            console.log('Generated URL:', whatsappURL);
+            window.location.href = whatsappURL;
+            textarea.value = '';
+        });
+
+        // Load models when page loads
+        loadModels();
+    </script>
+</body>
+</html>
