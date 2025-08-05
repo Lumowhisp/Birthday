@@ -5,8 +5,8 @@ This is a simple and heartfelt birthday website I built as a beginner to surpris
 ## 🌟 Features
 
 - 🎉 Beautiful birthday message
-- 📸 Photos & memories (if added)
-- 🎵 Optional background music (if added)
+- 📸 Photos & memories 
+- 🎵 Optional background music
 - 💌 Personal touch, handmade with ❤️
 - 🎨 Colorful design and animations (basic CSS/JS)
 
